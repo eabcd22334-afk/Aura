@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AURA অ্যাডমিন প্যানেল</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--brand:#14b88f;--bg:#0c1822;--card:#142431;--ink:#e6f0f4;--mute:#8ba3b0;--line:#243a49;--ok:#3ddc9a;--err:#ff6b6b}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Hind Siliguri',system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+.hide{display:none!important}
+input,select{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:15px;background:var(--bg);color:var(--ink)}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+button{font:inherit;cursor:pointer}
+.btn{width:100%;margin-top:14px;padding:12px;border:0;border-radius:10px;background:var(--brand);color:#06231c;font-weight:600}
+.msg{min-height:20px;margin-top:8px;font-size:13px;color:var(--err);text-align:center}.msg.ok{color:var(--ok)}
+label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.lbox{background:var(--card);border-radius:16px;padding:26px;width:100%;max-width:340px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.lbox h1{font-size:20px;margin-bottom:4px}.lbox p{color:var(--mute);font-size:14px}
+header{background:#0f5e4d;color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px}
+header b{flex:1;font-size:17px}header button{background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:8px;padding:7px 12px}
+main{max-width:900px;margin:0 auto;padding:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.stats div{background:var(--card);border-radius:12px;padding:12px 14px;color:var(--mute);font-size:13px}
+.stats b{display:block;font-size:20px;color:var(--ink);margin-top:2px}
+.u{background:var(--card);border-radius:14px;padding:14px;margin-top:10px;border-left:5px solid var(--ok)}
+.u.off{border-left-color:var(--err);background:#241a20}
+.h{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}.h small{color:var(--mute)}
+.h em{font-style:normal;font-size:12px;margin-left:auto;padding:2px 9px;border-radius:20px;background:#12372f;color:var(--ok)}
+.off .h em{background:#3a1d22;color:var(--err)}
+.bs{display:flex;gap:16px;flex-wrap:wrap;margin:8px 0;font-size:13px;color:var(--mute)}.bs b{color:var(--ink);font-size:15px}
+.ac{display:flex;gap:6px;flex-wrap:wrap}
+.ac button{border:1.5px solid var(--line);background:var(--card);border-radius:8px;padding:6px 11px;font-size:13px}
+.ac .dng{color:var(--err);border-color:#5a2a30}
+.nbar{width:100%;text-align:left;padding:13px 15px;border:0;border-radius:12px;background:var(--card);color:var(--mute);margin-bottom:12px;font:inherit}
+.nbar.on{background:#3b2f10;color:#ffd166;font-weight:600}
+.rq.pending{border-left-color:#ffd166}.rq.rejected{border-left-color:var(--err)}
+.rq.pending .h em{background:#3b2f10;color:#ffd166}.rq.rejected .h em{background:#3a1d22;color:var(--err)}
+.empty{text-align:center;color:var(--mute);padding:30px}
+.shade{position:fixed;inset:0;background:rgba(30,10,20,.5);display:flex;align-items:center;justify-content:center;z-index:5;padding:16px}
+.sheet{background:var(--card);border-radius:16px;padding:20px;width:100%;max-width:360px}
+.sheet h3{font-size:17px;margin-bottom:2px}
+.row{display:flex;gap:8px}.row .btn{background:var(--line);color:var(--ink)}.row .btn:first-child{background:var(--brand);color:#06231c}
+</style>
+</head>
+<body>
+<section id="login"><div class="lbox">
+  <h1>AURA অ্যাডমিন</h1><p>চালিয়ে যেতে পাসওয়ার্ড দিন</p>
+  <label for="pw">পাসওয়ার্ড</label><input id="pw" type="password" autocomplete="current-password">
+  <button id="go" class="btn">প্রবেশ করুন</button><div id="lm" class="msg"></div>
+</div></section>
+
+<section id="dash" class="hide">
+  <header><b>AURA অ্যাডমিন প্যানেল</b><button id="out">লগআউট</button></header>
+  <main>
+    <button id="nbar" class="nbar">🔔 কোনো নতুন আবেদন নেই</button>
+    <div class="stats" id="stats"></div>
+    <button id="newU" class="btn" style="margin:0 0 14px">＋ নতুন অ্যাকাউন্ট খুলুন</button>
+    <label for="q">ইউজার খুঁজুন (নাম বা ১৫ সংখ্যার কোড)</label><input id="q">
+    <div id="list"></div>
+  </main>
+</section>
+
+<div id="shade" class="shade hide"><div class="sheet" role="dialog" aria-modal="true">
+  <h3 id="sT"></h3><small id="sU" style="color:var(--mute)"></small>
+  <label for="sAmt">পরিমাণ (৳)</label><input id="sAmt" inputmode="decimal">
+  <div class="row"><button id="sGo" class="btn">নিশ্চিত করুন</button><button id="sX" class="btn">বাতিল</button></div>
+  <div id="sM" class="msg"></div>
+</div></div>
+
+<div id="shade2" class="shade hide"><div class="sheet" role="dialog" aria-modal="true">
+  <h3>নতুন অ্যাকাউন্ট</h3>
+  <label for="cName">নাম</label><input id="cName">
+  <label for="cCode">১৫ সংখ্যার অ্যাকাউন্ট কোড</label><div class="row"><input id="cCode" inputmode="numeric" maxlength="15" placeholder="১৫ সংখ্যার কোড"><button id="cGen" type="button" class="btn" style="width:auto;margin:0;padding:0 14px;white-space:nowrap">নতুন কোড</button></div>
+  <label for="cPin">৫ সংখ্যার পিন</label><input id="cPin" inputmode="numeric" maxlength="5">
+  <label for="cBal">প্রাথমিক ওয়ালেট ব্যালেন্স (৳)</label><input id="cBal" inputmode="decimal" value="0">
+  <div class="row"><button id="cGo" class="btn">অ্যাকাউন্ট খুলুন</button><button id="cX" class="btn">বন্ধ করুন</button></div>
+  <div id="cM" class="msg"></div>
+</div></div>
+
+<div id="shade3" class="shade hide"><div class="sheet" style="max-width:420px" role="dialog" aria-modal="true">
+  <h3>টাকার আবেদন</h3>
+  <div id="rList" style="max-height:60vh;overflow:auto"></div>
+  <div class="row"><button id="rClr" class="btn">সম্পন্ন আবেদন মুছুন</button><button id="rX" class="btn">বন্ধ করুন</button></div>
+</div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, get, set, push, remove, update, runTransaction, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const ADMIN_PASS = "zc@admin123"; // <-- এটি বদলে নিন
+const firebaseConfig = {
+  apiKey: "AIzaSyBX_fCBwMaaaQV3K8lPOs3FHC_QC5PlqkU",
+  authDomain: "bank-a9ef9.firebaseapp.com",
+  databaseURL: "https://bank-a9ef9-default-rtdb.firebaseio.com",
+  projectId: "bank-a9ef9",
+  storageBucket: "bank-a9ef9.firebasestorage.app",
+  messagingSenderId: "641927445122",
+  appId: "1:641927445122:web:4d49da036e333ab0ec129b",
+  measurementId: "G-NR850734Y2"
+};
+const db = getDatabase(initializeApp(firebaseConfig));
+const $ = id => document.getElementById(id);
+const bn = n => Number(n || 0).toLocaleString('bn-BD', { maximumFractionDigits: 2 });
+const money = n => '৳ ' + bn(n);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let users = {}, reqs = {}, tgt = null, sign = 1, started = false;
+
+function start() {
+  $('login').classList.add('hide'); $('dash').classList.remove('hide');
+  try { sessionStorage.setItem('zc_admin', '1'); } catch (e) {}
+  if (started) return; started = true;
+  onValue(ref(db, 'users'), s => { users = s.val() || {}; render(); });
+  onValue(ref(db, 'requests'), s => { reqs = s.val() || {}; renderReq(); });
+}
+$('go').onclick = () => $('pw').value === ADMIN_PASS ? start() : $('lm').textContent = 'পাসওয়ার্ড ভুল';
+$('pw').onkeydown = e => { if (e.key === 'Enter') $('go').click(); };
+$('out').onclick = () => { try { sessionStorage.removeItem('zc_admin'); } catch (e) {} location.reload(); };
+try { if (sessionStorage.getItem('zc_admin')) start(); } catch (e) {}
+
+function render() {
+  const all = Object.entries(users);
+  const sum = k => all.reduce((a, [, u]) => a + (u[k] || 0), 0);
+  const off = all.filter(([, u]) => u.status === 'disabled').length;
+  $('stats').innerHTML = [['মোট ইউজার', all.length], ['বন্ধ অ্যাকাউন্ট', off], ['ওয়ালেটে মোট', money(sum('balance'))]]
+    .map(([a, b]) => `<div>${a}<b>${b}</b></div>`).join('');
+  const q = $('q').value.trim().toLowerCase();
+  const rows = all.filter(([p, u]) => !q || p.includes(q) || (u.name || '').toLowerCase().includes(q));
+  $('list').innerHTML = rows.length ? rows.map(([p, u]) => {
+    const d = u.status === 'disabled';
+    return `<div class="u ${d ? 'off' : ''}"><div class="h"><b>${esc(u.name)}</b><small>কোড: ${esc(p)}</small><em>${d ? 'বন্ধ' : 'সক্রিয়'}</em></div>
+    <div class="bs"><span>ওয়ালেট <b>${money(u.balance)}</b></span></div>
+    <div class="ac"><button data-k="add" data-p="${esc(p)}">＋ টাকা যোগ</button><button data-k="sub" data-p="${esc(p)}">− টাকা বিয়োগ</button>
+    <button data-k="tog" data-p="${esc(p)}">${d ? 'চালু করুন' : 'বন্ধ করুন'}</button><button data-k="pin" data-p="${esc(p)}">পিন রিসেট</button>
+    <button data-k="del" data-p="${esc(p)}" class="dng">ডিলিট</button></div></div>`;
+  }).join('') : '<div class="empty">কোনো ইউজার পাওয়া যায়নি</div>';
+}
+$('q').oninput = render;
+
+const LBL = { pending: 'অপেক্ষমাণ', approved: 'অনুমোদিত', rejected: 'বাতিল' };
+function renderReq() {
+  const all = Object.entries(reqs).sort((a, b) => (b[1].ts || 0) - (a[1].ts || 0));
+  const n = all.filter(([, r]) => r.status === 'pending').length;
+  $('nbar').className = 'nbar' + (n ? ' on' : '');
+  $('nbar').textContent = n ? `🔔 ${bn(n)} টি নতুন আবেদন — আবেদন দেখুন` : '🔔 কোনো নতুন আবেদন নেই (আবেদন দেখুন)';
+  $('rList').innerHTML = all.length ? all.slice(0, 50).map(([id, r]) => `<div class="u rq ${esc(r.status)}"><div class="h"><b>${esc(r.name)}</b><small>কোড: ${esc(r.code)}</small><em>${LBL[r.status] || ''}</em></div>
+    <div class="bs"><span>পরিমাণ <b>${money(r.amount)}</b></span><span>${new Date(r.ts).toLocaleString('bn-BD', { dateStyle: 'medium', timeStyle: 'short' })}</span></div>
+    <div class="ac">${r.status === 'pending' ? `<button data-r="ok" data-id="${esc(id)}">অনুমোদন করুন</button><button data-r="no" data-id="${esc(id)}" class="dng">বাতিল করুন</button>` : ''}<button data-r="del" data-id="${esc(id)}" class="dng">ডিলিট</button></div></div>`).join('')
+    : '<div class="empty">কোনো আবেদন নেই</div>';
+}
+$('nbar').onclick = () => $('shade3').classList.remove('hide');
+$('rX').onclick = () => $('shade3').classList.add('hide');
+$('rClr').onclick = async () => {
+  const ids = Object.keys(reqs).filter(k => reqs[k].status !== 'pending');
+  if (!ids.length) return alert('মোছার মতো সম্পন্ন (অনুমোদিত বা বাতিল) আবেদন নেই');
+  if (!confirm(bn(ids.length) + ' টি সম্পন্ন আবেদন মুছে ফেলবেন? অপেক্ষমাণগুলো থাকবে।')) return;
+  const u = {}; ids.forEach(k => u[k] = null);
+  try { await update(ref(db, 'requests'), u); } catch (e) { alert('সমস্যা হয়েছে: ' + e.message); }
+};
+$('rList').onclick = async e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const id = b.dataset.id, r = reqs[id]; if (!r) return;
+  b.disabled = true;
+  try {
+    if (b.dataset.r === 'del') {
+      if (r.status === 'pending' && !confirm('এই আবেদনটি অনুমোদন ছাড়াই মুছে ফেলবেন?')) { b.disabled = false; return; }
+      await remove(ref(db, 'requests/' + id)); return;
+    }
+    if (r.status !== 'pending') return;
+    const st = ref(db, `requests/${id}/status`);
+    if (b.dataset.r === 'ok') {
+      if (!users[r.code]) throw new Error('এই ইউজারের অ্যাকাউন্ট আর নেই');
+      const c = await runTransaction(st, v => v === 'pending' ? 'approved' : undefined);
+      if (!c.committed) return;
+      await runTransaction(ref(db, `users/${r.code}/balance`), v => (v || 0) + r.amount);
+      await push(ref(db, 'txs/' + r.code), { type: 'admin', label: 'আবেদন অনুমোদিত', amount: r.amount, ts: Date.now() });
+    } else {
+      await runTransaction(st, v => v === 'pending' ? 'rejected' : undefined);
+    }
+  } catch (err) { alert(err.message); }
+};
+
+$('list').onclick = async e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const p = b.dataset.p, u = users[p], k = b.dataset.k;
+  try {
+    if (k === 'add' || k === 'sub') {
+      tgt = p; sign = k === 'add' ? 1 : -1;
+      $('sT').textContent = sign > 0 ? 'টাকা যোগ করুন' : 'টাকা বিয়োগ করুন';
+      $('sU').textContent = u.name + ' • ' + p; $('sAmt').value = ''; $('sM').textContent = '';
+      $('shade').classList.remove('hide'); $('sAmt').focus();
+    } else if (k === 'tog') {
+      await update(ref(db, 'users/' + p), { status: u.status === 'disabled' ? 'active' : 'disabled' });
+    } else if (k === 'pin') {
+      const n = prompt(u.name + ' এর নতুন ৫ সংখ্যার পিন:');
+      if (n === null) return;
+      if (!/^\d{5}$/.test(n)) return alert('পিন ৫ সংখ্যার হতে হবে');
+      await update(ref(db, 'users/' + p), { pin: n }); alert('পিন বদলানো হয়েছে');
+    } else if (k === 'del') {
+      if (!confirm(u.name + ' (' + p + ') অ্যাকাউন্ট ও সব লেনদেন স্থায়ীভাবে মুছবেন?')) return;
+      await remove(ref(db, 'users/' + p)); await remove(ref(db, 'txs/' + p));
+    }
+  } catch (err) { alert('সমস্যা হয়েছে: ' + err.message); }
+};
+
+const close = () => $('shade').classList.add('hide');
+$('sX').onclick = close;
+$('sGo').onclick = async () => {
+  const amt = parseFloat($('sAmt').value), m = $('sM');
+  m.className = 'msg';
+  if (!(amt > 0)) return m.textContent = 'সঠিক পরিমাণ দিন';
+  $('sGo').disabled = true;
+  try {
+    const r = await runTransaction(ref(db, `users/${tgt}/balance`), b => { const n = (b || 0) + sign * amt; return n < 0 ? undefined : n; });
+    if (!r.committed) throw new Error('পর্যাপ্ত ব্যালেন্স নেই');
+    await push(ref(db, 'txs/' + tgt), { type: 'admin', label: (sign > 0 ? 'যোগ' : 'বিয়োগ') + ' • ওয়ালেট', amount: sign * amt, ts: Date.now() });
+    m.className = 'msg ok'; m.textContent = 'সম্পন্ন ✓'; setTimeout(close, 700);
+  } catch (e) { m.textContent = e.message; }
+  $('sGo').disabled = false;
+};
+
+const genCode = () => { const d = Array.from(crypto.getRandomValues(new Uint8Array(15)), b => b % 10); d[0] = d[0] || 1; return d.join(''); };
+$('cGen').onclick = () => { $('cCode').value = genCode(); };
+$('newU').onclick = () => { ['cName', 'cPin'].forEach(i => $(i).value = ''); $('cCode').value = genCode(); $('cBal').value = '0'; $('cM').textContent = ''; $('shade2').classList.remove('hide'); $('cName').focus(); };
+$('cX').onclick = () => $('shade2').classList.add('hide');
+$('cGo').onclick = async () => {
+  const name = $('cName').value.trim(), code = $('cCode').value.trim(), pin = $('cPin').value.trim(), bal = parseFloat($('cBal').value) || 0, m = $('cM');
+  m.className = 'msg';
+  try {
+    if (name.length < 2) throw new Error('নাম লিখুন');
+    if (!/^\d{15}$/.test(code)) throw new Error('কোড অবশ্যই ১৫ সংখ্যার হতে হবে');
+    if (!/^\d{5}$/.test(pin)) throw new Error('পিন ৫ সংখ্যার হতে হবে');
+    if (bal < 0) throw new Error('ব্যালেন্স ঋণাত্মক হতে পারে না');
+    $('cGo').disabled = true;
+    if ((await get(ref(db, 'users/' + code))).exists()) throw new Error('এই কোডে অ্যাকাউন্ট আছে, নতুন কোড নিন');
+    await set(ref(db, 'users/' + code), { name, pin, balance: bal, status: 'active', created: Date.now() });
+    if (bal > 0) await push(ref(db, 'txs/' + code), { type: 'admin', label: 'প্রাথমিক ব্যালেন্স', amount: bal, ts: Date.now() });
+    ['cName', 'cPin'].forEach(i => $(i).value = ''); $('cBal').value = '0'; $('cCode').value = genCode();
+    m.className = 'msg ok'; m.textContent = 'অ্যাকাউন্ট খোলা হয়েছে ✓ কোড: ' + code;
+  } catch (e) { m.textContent = e.message; }
+  $('cGo').disabled = false;
+};
+</script>
+</body>
+</html>
