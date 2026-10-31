@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AURA – মোবাইল ওয়ালেট </title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--brand:#14b88f;--brand2:#0e9272;--bg:#0c1822;--card:#142431;--ink:#e6f0f4;--mute:#8ba3b0;--ok:#3ddc9a;--err:#ff6b6b;--line:#243a49;--tint:#173a3a}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Hind Siliguri',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;justify-content:center}
+#app{width:100%;max-width:440px;min-height:100vh;background:var(--bg);position:relative}
+.hide{display:none!important}
+.logo{display:inline-flex;align-items:center;justify-content:center;background:#fff;color:var(--brand);font-weight:700;border-radius:14px 14px 14px 4px;width:44px;height:44px;font-size:22px;letter-spacing:-1px}
+/* auth */
+.auth{background:linear-gradient(180deg,#0f5e4d 0 38%,var(--bg) 38%);min-height:100vh;padding:48px 20px}
+.auth .top{color:#fff;text-align:center;margin-bottom:28px}
+.auth .logo{width:68px;height:68px;font-size:34px;margin-bottom:10px}
+.auth h1{font-size:22px;font-weight:600}.auth p{opacity:.85;font-size:14px}
+.box{background:var(--card);border-radius:18px;padding:20px;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.tabs{display:flex;background:var(--bg);border-radius:12px;padding:4px;margin-bottom:16px}
+.tabs button{flex:1;border:0;background:none;padding:9px;border-radius:9px;font:inherit;font-weight:500;color:var(--mute);cursor:pointer}
+.tabs button.on{background:#fff;color:var(--brand);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+label{display:block;font-size:13px;color:var(--mute);margin:12px 0 5px}
+input{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:16px;background:var(--bg);color:var(--ink)}
+input:focus,button:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+.btn{width:100%;margin-top:18px;padding:13px;border:0;border-radius:12px;background:var(--brand);color:#06231c;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
+.btn:active{background:var(--brand2)}.btn:disabled{opacity:.6}
+.msg{min-height:20px;margin-top:10px;font-size:13px;color:var(--err);text-align:center}.msg.ok{color:var(--ok)}
+.note{font-size:12px;color:var(--mute);text-align:center;margin-top:14px}
+/* home */
+header{background:#0f5e4d;color:#fff;padding:18px 18px 74px;display:flex;align-items:center;gap:12px}
+header .who{flex:1;line-height:1.25}header small{opacity:.8;font-size:12px}header b{font-size:16px;font-weight:600}
+header button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:10px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
+.bal{margin:-52px 16px 0;background:var(--card);border-radius:18px;padding:16px 18px;box-shadow:0 8px 24px rgba(0,0,0,.35);display:flex;justify-content:space-between;align-items:center}
+.bal small{color:var(--mute);font-size:13px}.bal strong{display:block;font-size:28px;font-weight:700;color:var(--brand);margin-top:2px}
+.bal button{border:1.5px solid var(--brand);background:none;color:var(--brand);border-radius:10px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:8px 10px 16px}
+.grid button{background:none;border:0;border-radius:14px;padding:10px 2px 8px;font:inherit;font-size:12px;font-weight:500;line-height:1.25;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px}
+.grid button span{font-size:22px;width:48px;height:48px;border-radius:50%;background:var(--tint);display:flex;align-items:center;justify-content:center}
+.grid button:active{background:var(--tint)}
+h2{font-size:16px;font-weight:600;margin:6px 18px 8px}
+.list{margin:0 16px 30px;background:var(--card);border-radius:16px;overflow:hidden}
+.tx{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.tx:last-child{border:0}.tx i{font-style:normal;width:38px;height:38px;border-radius:50%;background:var(--tint);display:flex;align-items:center;justify-content:center}
+.tx div{flex:1;line-height:1.3}.tx small{color:var(--mute);font-size:12px}
+.tx b{font-weight:600}.pos{color:var(--ok)}.neg{color:var(--ink)}
+.empty{padding:22px;text-align:center;color:var(--mute);font-size:14px}
+select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:16px;background:var(--bg);color:var(--ink)}
+.bank{margin:10px 16px 0;display:flex;gap:10px}.bank div{flex:1;background:var(--card);border-radius:14px;padding:10px 12px;font-size:13px;color:var(--mute)}.bank b{display:block;color:var(--ink);font-size:16px;font-weight:600}
+.big{display:flex;align-items:center;gap:14px;width:calc(100% - 32px);margin:16px;padding:20px 18px;border:0;border-radius:20px;background:linear-gradient(135deg,#14b88f,#0e8f72);color:#06231c;font:inherit;text-align:left;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.3)}
+.big span{font-size:38px;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center}
+.big b{font-size:22px;font-weight:700;display:block}.big small{font-size:13px;opacity:.85}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#e6f0f4;color:#0c1822;padding:10px 20px;border-radius:24px;font-size:14px;z-index:9;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:normal;max-width:90vw;text-align:center}
+.gbar{background:#3b2f10;color:#ffd166;padding:8px 14px;font-size:13px;text-align:center}
+/* sheet */
+.shade{position:fixed;inset:0;background:rgba(30,10,20,.5);display:flex;align-items:flex-end;justify-content:center;z-index:5}
+.sheet{width:100%;max-width:440px;background:var(--card);border-radius:22px 22px 0 0;padding:20px 20px 28px}
+.sheet h3{font-size:18px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.sheet h3 button{border:0;background:var(--bg);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:up .22s ease-out}@keyframes up{from{transform:translateY(40px);opacity:0}}}
+</style>
+</head>
+<body>
+<div id="app">
+
+<section id="auth" class="auth">
+  <div class="top"><div class="logo">A</div><h1>AURA-তে স্বাগতম</p></div>
+  <div class="box">
+    <label for="aPhone">১৫ সংখ্যার অ্যাকাউন্ট কোড</label><input id="aPhone" inputmode="numeric" maxlength="15" placeholder="১৫ সংখ্যার কোড">
+    <label for="aPin">৫ সংখ্যার পিন</label><input id="aPin" type="password" inputmode="numeric" maxlength="5" placeholder="•••••">
+    <button id="aGo" class="btn">লগইন করুন</button>
+    <button id="aGuest" class="btn" style="background:none;border:1.5px solid var(--brand);color:var(--brand);margin-top:10px">অ্যাকাউন্ট ছাড়া অ্যাপ ঘুরে দেখুন</button>
+    <div id="aMsg" class="msg"></div>
+    <p class="note"> একাউন্ট আছে? লগইন করুন <br>-- লেনদেন সহজ হোক AURA তে -- <br>এটা ডেমো কিন্তু রিয়েল এর মতোই কাজ করে।</p>
+  </div>
+</section>
+
+<section id="home" class="hide">
+  <div id="gbar" class="gbar hide">👀 আপনি ঘুরে দেখছেন — অ্যাকাউন্ট খুলতে সাগরের সাথে যোগাযোগ করুন</div>
+  <header><div class="logo">A</div><div class="who"><small>স্বাগতম</small><br><b id="hName">—</b></div><button id="gear" aria-label="সেটিং">⚙️</button><button id="out">লগআউট</button></header>
+  <div class="bal"><div><small>আপনার ব্যালেন্স</small><strong id="hBal">৳ ****</strong></div><button id="eye">দেখুন</button></div>
+  <button data-a="send" class="big"><span>💸</span><div><b>সেন্ড মানি</b><small>অন্য AURA অ্যাকাউন্টে টাকা পাঠান</small></div></button>
+  <div class="grid">
+    <button data-na><span>📲</span>মোবাইল রিচার্জ</button>
+    <button data-na><span>💵</span>ক্যাশ আউট</button>
+    <button data-na><span>🛍️</span>পেমেন্ট</button>
+    <button data-a="req"><span>➕</span>অ্যাড মানি</button>
+    <button data-na><span>💡</span>পে বিল</button>
+    <button data-na><span>🏺</span>সেভিংস</button>
+    <button data-na><span>🤲</span>লোন</button>
+    <button data-na><span>🛡️</span>ইন্স্যুরেন্স</button>
+    <button data-na><span>🏦</span>AURA টু ব্যাংক</button>
+    <button data-na><span>📖</span>এডুকেশন ফি</button>
+    <button data-na><span>🙌</span>মাইক্রোফাইন্যান্স</button>
+    <button data-na><span>🚇</span>টোল ও মেট্রোরেল</button>
+    <button data-na><span>🌍</span>রেমিটেন্স</button>
+    <button data-na><span>❤️</span>ডোনেশন</button>
+  </div>
+  <h2 id="lt">সাম্প্রতিক লেনদেন</h2>
+  <div id="txs" class="list"></div>
+</section>
+
+<div id="shade" class="shade hide"><div class="sheet" role="dialog" aria-modal="true">
+  <h3><span id="sT"></span><button id="sX" aria-label="বন্ধ করুন">✕</button></h3>
+  <div id="sNumW"><label id="sNumL" for="sNum"></label><input id="sNum" inputmode="numeric" maxlength="15"></div>
+  <label for="sAmt">পরিমাণ (৳)</label><input id="sAmt" inputmode="decimal" placeholder="0">
+  <div id="sPinW"><label for="sPin">পিন</label><input id="sPin" type="password" inputmode="numeric" maxlength="5" placeholder="•••••"></div>
+  <div id="sFee" class="note"></div>
+  <button id="sGo" class="btn">নিশ্চিত করুন</button>
+  <div id="sMsg" class="msg"></div>
+</div></div>
+
+<div id="toast" class="toast hide">ফিচারটি কার্যকর নয়</div>
+
+<div id="shade2" class="shade hide"><div class="sheet" role="dialog" aria-modal="true">
+  <h3><span>সেটিং</span><button id="s2X" aria-label="বন্ধ করুন">✕</button></h3>
+  <label for="nName">নাম</label><input id="nName">
+  <label for="oPin">বর্তমান পিন (পিন বদলাতে চাইলে)</label><input id="oPin" type="password" inputmode="numeric" maxlength="5">
+  <label for="nPin">নতুন ৫ সংখ্যার পিন</label><input id="nPin" type="password" inputmode="numeric" maxlength="5">
+  <button id="s2Go" class="btn">সেভ করুন</button>
+  <div id="s2M" class="msg"></div>
+</div></div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, get, set, push, runTransaction, update, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBX_fCBwMaaaQV3K8lPOs3FHC_QC5PlqkU",
+  authDomain: "bank-a9ef9.firebaseapp.com",
+  databaseURL: "https://bank-a9ef9-default-rtdb.firebaseio.com",
+  projectId: "bank-a9ef9",
+  storageBucket: "bank-a9ef9.firebasestorage.app",
+  messagingSenderId: "641927445122",
+  appId: "1:641927445122:web:4d49da036e333ab0ec129b",
+  measurementId: "G-NR850734Y2"
+};
+const db = getDatabase(initializeApp(firebaseConfig));
+const $ = id => document.getElementById(id);
+const bn = n => Number(n).toLocaleString('bn-BD', { maximumFractionDigits: 2 });
+const money = n => '৳ ' + bn(n);
+const CODE = /^\d{15}$/;
+const OK = { send: CODE, rech: /^01[3-9]\d{8}$/, pay: /^\d{5,15}$/ };
+let me = null, bal = 0, uName = '', show = false, offs = [], act = null, guest = false;
+
+/* ---------- auth ---------- */
+
+$('aGo').onclick = async () => {
+  const phone = $('aPhone').value.trim(), pin = $('aPin').value.trim(), m = $('aMsg');
+  m.className = 'msg';
+  if (!CODE.test(phone)) return m.textContent = 'সঠিক ১৫ সংখ্যার অ্যাকাউন্ট কোড দিন';
+  if (!/^\d{5}$/.test(pin)) return m.textContent = 'পিন অবশ্যই ৫ সংখ্যার হতে হবে';
+  $('aGo').disabled = true;
+  try {
+    const snap = await get(ref(db, 'users/' + phone));
+    if (!snap.exists() || snap.val().pin !== pin) throw new Error('নম্বর বা পিন ভুল');
+    if (snap.val().status === 'disabled') throw new Error('অ্যাকাউন্ট বন্ধ আছে, অ্যাডমিনের সাথে যোগাযোগ করুন');
+    enter(phone);
+  } catch (e) { m.textContent = e.message || 'সংযোগ সমস্যা, আবার চেষ্টা করুন'; }
+  $('aGo').disabled = false;
+};
+
+/* ---------- home ---------- */
+const ICON = { send: '💸', received: '💰', cash: '🏧', rech: '📲', pay: '🧾', add: '➕', bonus: '🎁', bank: '🏦', admin: '🛠️' };
+const TITLE = { send: 'সেন্ড মানি', received: 'টাকা পেয়েছেন', cash: 'ক্যাশ আউট', rech: 'মোবাইল রিচার্জ', pay: 'পেমেন্ট', add: 'অ্যাড মানি', bonus: 'বোনাস', bank: 'ব্যাংক ট্রান্সফার', admin: 'অ্যাডমিন' };
+
+function paintBal() { $('hBal').textContent = show ? money(bal) : '৳ ****'; $('eye').textContent = show ? 'লুকান' : 'দেখুন'; }
+$('eye').onclick = () => { show = !show; paintBal(); };
+
+function enter(phone) {
+  me = phone; try { localStorage.setItem('zc_me', phone); } catch (e) {}
+  $('auth').classList.add('hide'); $('home').classList.remove('hide');
+  offs.push(onValue(ref(db, 'users/' + me), s => {
+    const u = s.val(); if (!u) return out();
+    if (u.status === 'disabled') { alert('আপনার অ্যাকাউন্ট বন্ধ করা হয়েছে'); return out(); }
+    bal = u.balance || 0; uName = u.name; $('hName').textContent = u.name; paintBal();
+  }));
+  offs.push(onValue(query(ref(db, 'txs/' + me), limitToLast(25)), s => {
+    const rows = []; s.forEach(c => { rows.push(c.val()); });
+    rows.reverse();
+    $('txs').innerHTML = rows.length ? rows.map(t => `
+      <div class="tx"><i>${ICON[t.type] || '💳'}</i>
+      <div><b>${TITLE[t.type] || t.type}</b><br><small>${t.label || ''} • ${new Date(t.ts).toLocaleString('bn-BD', { dateStyle: 'medium', timeStyle: 'short' })}</small></div>
+      <b class="${t.amount > 0 ? 'pos' : 'neg'}">${t.type === 'bank' ? '' : t.amount > 0 ? '+' : '−'}${money(Math.abs(t.amount))}</b></div>`).join('')
+      : '<div class="empty">এখনো কোনো লেনদেন নেই। উপরের অপশন থেকে শুরু করুন।</div>';
+  }));
+}
+function enterGuest() {
+  guest = true; me = null; bal = 12500; uName = 'অতিথি';
+  $('auth').classList.add('hide'); $('home').classList.remove('hide'); $('gbar').classList.remove('hide');
+  $('hName').textContent = 'অতিথি (ডেমো)'; $('out').textContent = 'বের হন'; show = true; paintBal();
+  const d = Date.now(), rows = [
+    { type: 'send', label: 'রহিম', amount: -500, ts: d - 3600e3 },
+    { type: 'received', label: 'প্রেরক: করিম', amount: 2000, ts: d - 86400e3 },
+    { type: 'admin', label: 'প্রাথমিক ব্যালেন্স', amount: 11000, ts: d - 3 * 86400e3 }];
+  $('txs').innerHTML = rows.map(t => `
+      <div class="tx"><i>${ICON[t.type]}</i>
+      <div><b>${TITLE[t.type]}</b><br><small>${t.label} • ${new Date(t.ts).toLocaleString('bn-BD', { dateStyle: 'medium', timeStyle: 'short' })}</small></div>
+      <b class="${t.amount > 0 ? 'pos' : 'neg'}">${t.amount > 0 ? '+' : '−'}${money(Math.abs(t.amount))}</b></div>`).join('');
+}
+$('aGuest').onclick = enterGuest;
+// ঘুরে দেখার মোডে "বের হন" ছাড়া যেকোনো ক্লিকে বার্তা দেখায়, কোনো কাজ হয় না
+$('home').addEventListener('click', e => {
+  if (!guest || e.target.closest('#out')) return;
+  e.stopPropagation(); e.preventDefault();
+  toast('অ্যাকাউন্ট খুলতে সাগরের সাথে যোগাযোগ করুন');
+}, true);
+function out() {
+  guest = false; $('gbar').classList.add('hide'); $('out').textContent = 'লগআউট';
+  offs.forEach(f => f()); offs = []; me = null; show = false;
+  try { localStorage.removeItem('zc_me'); } catch (e) {}
+  $('home').classList.add('hide'); $('auth').classList.remove('hide'); $('aPin').value = '';
+}
+$('out').onclick = out;
+
+/* ---------- actions ---------- */
+const A = {
+  send: { t: 'সেন্ড মানি', num: 'প্রাপকের ১৫ সংখ্যার অ্যাকাউন্ট কোড', fee: 0 },
+  req:  { t: 'টাকার জন্য আবেদন করুন', num: null, fee: 0 }
+};
+const feeOf = () => Math.round((parseFloat($('sAmt').value) || 0) * A[act].fee * 100) / 100;
+document.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
+  act = b.dataset.a; const a = A[act];
+  $('sT').textContent = a.t; $('sNumW').classList.toggle('hide', !a.num);
+  if (a.num) $('sNumL').textContent = a.num;
+  $('sPinW').classList.toggle('hide', act === 'req');
+  ['sNum', 'sAmt', 'sPin'].forEach(i => $(i).value = ''); $('sMsg').textContent = ''; $('sFee').textContent = a.fee ? 'চার্জ: ১.৮৫%' : '';
+  $('shade').classList.remove('hide'); setTimeout(() => $(a.num ? 'sNum' : 'sAmt').focus(), 50);
+});
+$('sAmt').oninput = () => { if (A[act].fee) $('sFee').textContent = 'চার্জ: ' + money(feeOf()) + ' (১.৮৫%)'; };
+let rName = '';
+$('sNum').oninput = async () => {
+  if (act !== 'send' || guest) return;
+  const v = $('sNum').value.trim(); $('sFee').textContent = '';
+  if (!CODE.test(v)) return;
+  try {
+    const r = await get(ref(db, 'users/' + v)); if ($('sNum').value.trim() !== v) return;
+    $('sFee').textContent = v === me ? 'নিজের কোডে পাঠানো যাবে না' : r.exists() ? 'প্রাপক: ' + r.val().name : 'এই কোডে AURA অ্যাকাউন্ট নেই';
+  } catch (e) {}
+};
+const close = () => $('shade').classList.add('hide');
+$('sX').onclick = close; $('shade').onclick = e => { if (e.target === $('shade')) close(); };
+
+$('sGo').onclick = async () => {
+  const a = A[act], m = $('sMsg'), amt = parseFloat($('sAmt').value), num = $('sNum').value.trim(), pin = $('sPin').value.trim();
+  m.className = 'msg';
+  if (guest) return m.textContent = 'এটি ঘুরে দেখার ডেমো। আসল লেনদেনের জন্য অ্যাডমিনের কাছ থেকে অ্যাকাউন্ট নিন।';
+  if (a.num && !OK[act].test(num)) return m.textContent = act === 'send' ? 'সঠিক ১৫ সংখ্যার কোড দিন' : 'সঠিক নম্বর দিন';
+  if (a.num && num === me) return m.textContent = 'নিজের কোডে পাঠানো যাবে না';
+  if (!(amt >= 1) || amt > 100000) return m.textContent = 'পরিমাণ ১ থেকে ১,০০,০০০ টাকার মধ্যে দিন';
+  $('sGo').disabled = true;
+  try {
+    const ts = Date.now(); rName = '';
+    if (act === 'req') {
+      await push(ref(db, 'requests'), { code: me, name: uName, amount: amt, status: 'pending', ts });
+    } else {
+      const p = await get(ref(db, `users/${me}/pin`));
+      if (p.val() !== pin) throw new Error('পিন ভুল');
+      if (act === 'send') { const r = await get(ref(db, 'users/' + num)); if (!r.exists()) throw new Error('এই কোডে AURA অ্যাকাউন্ট নেই'); if (r.val().status === 'disabled') throw new Error('প্রাপকের অ্যাকাউন্ট বন্ধ আছে'); rName = r.val().name; }
+      const fee = feeOf();
+      const r = await runTransaction(ref(db, `users/${me}/balance`), b => (b || 0) >= amt + fee ? b - amt - fee : undefined);
+      if (!r.committed) throw new Error('পর্যাপ্ত ব্যালেন্স নেই');
+      if (act === 'send') {
+        await runTransaction(ref(db, `users/${num}/balance`), b => (b || 0) + amt);
+        await push(ref(db, 'txs/' + num), { type: 'received', label: 'প্রেরক: ' + uName + ' (' + me + ')', amount: amt, ts });
+      }
+      await push(ref(db, 'txs/' + me), { type: act, label: rName ? rName + ' (' + num + ')' : num, amount: -(amt + fee), ts });
+    }
+    m.className = 'msg ok'; m.textContent = act === 'req' ? 'আবেদন জমা হয়েছে ✓ অ্যাডমিন অনুমোদন করলে ব্যালেন্সে যোগ হবে' : 'সফল হয়েছে ✓'; setTimeout(close, act === 'req' ? 1800 : 900);
+  } catch (e) { m.textContent = e.message || 'সংযোগ সমস্যা'; }
+  $('sGo').disabled = false;
+};
+
+let tt;
+const toast = t => { $('toast').textContent = t; $('toast').classList.remove('hide'); clearTimeout(tt); tt = setTimeout(() => $('toast').classList.add('hide'), 2200); };
+document.querySelectorAll('[data-na]').forEach(b => b.onclick = () => toast('ফিচারটি কার্যকর নয়'));
+
+/* ---------- settings ---------- */
+const close2 = () => $('shade2').classList.add('hide');
+$('gear').onclick = () => {
+  if (guest) return toast('ঘুরে দেখার মোডে সেটিং বদলানো যায় না'); $('nName').value = uName; $('oPin').value = $('nPin').value = ''; $('s2M').textContent = ''; $('shade2').classList.remove('hide'); };
+$('s2X').onclick = close2; $('shade2').onclick = e => { if (e.target === $('shade2')) close2(); };
+$('s2Go').onclick = async () => {
+  const m = $('s2M'), name = $('nName').value.trim(), o = $('oPin').value.trim(), n = $('nPin').value.trim(), upd = {};
+  m.className = 'msg';
+  try {
+    if (name.length < 2) throw new Error('সঠিক নাম লিখুন');
+    upd.name = name;
+    if (o || n) {
+      if (!/^\d{5}$/.test(n)) throw new Error('নতুন পিন ৫ সংখ্যার হতে হবে');
+      const p = await get(ref(db, `users/${me}/pin`));
+      if (p.val() !== o) throw new Error('বর্তমান পিন ভুল');
+      upd.pin = n;
+    }
+    await update(ref(db, 'users/' + me), upd);
+    m.className = 'msg ok'; m.textContent = 'সেভ হয়েছে ✓'; setTimeout(close2, 800);
+  } catch (e) { m.textContent = e.message || 'সংযোগ সমস্যা'; }
+};
+
+try { const s = localStorage.getItem('zc_me'); if (s) enter(s); } catch (e) {}
+</script>
+</body>
+</html>
