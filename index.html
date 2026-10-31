@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AURA – মোবাইল ওয়ালেট </title>
+<title>AURA – Mobile wallet </title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;--brand:#14b88f;--brand2:#0e9272;--bg:#0c1822;--card:#142431;--ink:#e6f0f4;--mute:#8ba3b0;--ok:#3ddc9a;--err:#ff6b6b;--line:#243a49;--tint:#173a3a}
@@ -32,8 +32,8 @@ input:focus,button:focus-visible{outline:2px solid var(--brand);outline-offset:1
 header{background:#0f5e4d;color:#fff;padding:18px 18px 74px;display:flex;align-items:center;gap:12px}
 header .who{flex:1;line-height:1.25}header small{opacity:.8;font-size:12px}header b{font-size:16px;font-weight:600}
 header button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:10px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
-.bal{margin:-52px 16px 0;background:var(--card);border-radius:18px;padding:16px 18px;box-shadow:0 8px 24px rgba(0,0,0,.35);display:flex;justify-content:space-between;align-items:center}
-.bal small{color:var(--mute);font-size:13px}.bal strong{display:block;font-size:28px;font-weight:700;color:var(--brand);margin-top:2px}
+.bal{margin:-52px 16px 0;background:var(--card);border-radius:18px;padding:16px 18px;box-shadow:0 8px 24px rgba(0,0,0,.35);display:flex;justify-content:space-between;align-items:center;gap:12px;min-width:0}.bal>div{flex:1;min-width:0}.bal button{flex-shrink:0}
+.bal small{color:var(--mute);font-size:13px}.bal strong{display:block;font-size:clamp(17px,3.4vw,34px);font-weight:700;color:var(--brand);margin-top:2px;max-width:100%;line-height:1.25;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
 .bal button{border:1.5px solid var(--brand);background:none;color:var(--brand);border-radius:10px;padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:8px 10px 16px}
 .grid button{background:none;border:0;border-radius:14px;padding:10px 2px 8px;font:inherit;font-size:12px;font-weight:500;line-height:1.25;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px}
@@ -117,7 +117,7 @@ select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius
     border: 1px solid rgba(120,170,180,.12);
   }
   .bal small { font-size: 14px; }
-  .bal strong { font-size: 34px; }
+  .bal strong { font-size: clamp(20px, 2.5vw, 34px); white-space:normal; overflow-wrap:anywhere; word-break:break-word; }
   .bal button { padding: 9px 16px; font-size: 14px; }
   #home > .big {
     grid-area: big;
@@ -165,25 +165,32 @@ select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius
   .grid button span { width: 42px; height: 42px; font-size: 20px; }
   .bal strong { font-size: 25px; }
 }
+
+.bal, .bal > div { min-width: 0; }
+.bal strong { white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+@media (max-width: 480px) {
+  .bal { gap: 8px; padding-left: 14px; padding-right: 14px; }
+  .bal strong { font-size: clamp(17px, 5vw, 25px); }
+}
 </style>
 </head>
 <body>
 <div id="app">
 
 <section id="auth" class="auth">
-  <div class="top"><div class="logo">A</div><h1>AURA-তে স্বাগতম</h1><p>সহজ, দ্রুত ডিজিটাল লেনদেন হোক AURA এর সাথে </p></div>
+  <div class="top"><div class="logo">A</div><h1>AURA-তে স্বাগতম</h1><p>সহজ, দ্রুত ডিজিটাল লেনদেন (ডেমো)</p></div>
   <div class="box">
     <label for="aPhone">১৫ সংখ্যার AURA কোড</label><input id="aPhone" inputmode="numeric" maxlength="15" placeholder="১৫ সংখ্যার কোড">
     <label for="aPin">৫ সংখ্যার পিন</label><input id="aPin" type="password" inputmode="numeric" maxlength="5" placeholder="•••••">
     <button id="aGo" class="btn">লগইন করুন</button>
     <button id="aGuest" class="btn" style="background:none;border:1.5px solid var(--brand);color:var(--brand);margin-top:10px">অ্যাকাউন্ট ছাড়া অ্যাপ ঘুরে দেখুন</button>
     <div id="aMsg" class="msg"></div>
-    <p class="note"> নিজের অ্যাকাউন্ট ও কোড পেতে সাগরের সাথে যোগাযোগ করুন <br>এটি শুধু ডেমো কিন্তু আসলের মতোই কাজ করে।</p>
+    <p class="note">অ্যাকাউন্ট ও কোড শুধু অ্যাডমিন দিতে পারেন।<br>এটি ডেমো কিন্তু আসলের মতো কাজ করে </p>
   </div>
 </section>
 
 <section id="home" class="hide">
-  <div id="gbar" class="gbar hide">আপনি ঘুরে দেখছেন — অ্যাকাউন্ট খুলতে সাগরের সাথে যোগাযোগ করুন</div>
+  <div id="gbar" class="gbar hide">👀 আপনি ঘুরে দেখছেন — অ্যাকাউন্ট খুলতে সাগরের সাথে যোগাযোগ করুন</div>
   <header><div class="logo">A</div><div class="who"><small>স্বাগতম</small><br><b id="hName">—</b></div><button id="gear" aria-label="সেটিং">⚙️</button><button id="out">লগআউট</button></header>
   <div class="bal"><div><small>আপনার ব্যালেন্স</small><strong id="hBal">৳ ****</strong></div><button id="eye">দেখুন</button></div>
   <button data-a="send" class="big"><span>💸</span><div><b>সেন্ড মানি</b><small>অন্য AURA অ্যাকাউন্টে টাকা পাঠান</small></div></button>
@@ -313,7 +320,6 @@ $('home').addEventListener('click', e => {
   e.stopPropagation(); e.preventDefault();
   toast('অ্যাকাউন্ট খুলতে সাগরের সাথে যোগাযোগ করুন');
 }, true);
-
 function out() {
   guest = false; $('gbar').classList.add('hide'); $('out').textContent = 'লগআউট';
   offs.forEach(f => f()); offs = []; me = null; show = false;
@@ -321,14 +327,12 @@ function out() {
   $('home').classList.add('hide'); $('auth').classList.remove('hide'); $('aPin').value = '';
 }
 $('out').onclick = out;
-
 /* ---------- actions ---------- */
 const A = {
   send: { t: 'সেন্ড মানি', num: 'প্রাপকের ১৫ সংখ্যার অ্যাকাউন্ট কোড', fee: 0 },
   req:  { t: 'টাকার জন্য আবেদন করুন', num: null, fee: 0 }
 };
 const feeOf = () => Math.round((parseFloat($('sAmt').value) || 0) * A[act].fee * 100) / 100;
-
 document.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
   act = b.dataset.a; const a = A[act];
   $('sT').textContent = a.t; $('sNumW').classList.toggle('hide', !a.num);
@@ -337,10 +341,8 @@ document.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
   ['sNum', 'sAmt', 'sPin'].forEach(i => $(i).value = ''); $('sMsg').textContent = ''; $('sFee').textContent = a.fee ? 'চার্জ: ১.৮৫%' : '';
   $('shade').classList.remove('hide'); setTimeout(() => $(a.num ? 'sNum' : 'sAmt').focus(), 50);
 });
-
 $('sAmt').oninput = () => { if (A[act].fee) $('sFee').textContent = 'চার্জ: ' + money(feeOf()) + ' (১.৮৫%)'; };
 let rName = '';
-
 $('sNum').oninput = async () => {
   if (act !== 'send' || guest) return;
   const v = $('sNum').value.trim(); $('sFee').textContent = '';
@@ -350,7 +352,6 @@ $('sNum').oninput = async () => {
     $('sFee').textContent = v === me ? 'নিজের কোডে পাঠানো যাবে না' : r.exists() ? 'প্রাপক: ' + r.val().name : 'এই কোডে AURA অ্যাকাউন্ট নেই';
   } catch (e) {}
 };
-
 const close = () => $('shade').classList.add('hide');
 $('sX').onclick = close; $('shade').onclick = e => { if (e.target === $('shade')) close(); };
 
@@ -391,10 +392,8 @@ document.querySelectorAll('[data-na]').forEach(b => b.onclick = () => toast('ফ
 /* ---------- settings ---------- */
 const close2 = () => $('shade2').classList.add('hide');
 $('gear').onclick = () => {
-  if (guest) return toast('ঘুরে দেখার মোডে সেটিং বদলানো যায় না'); $('nName').value = uName; $('oPin').value = $('nPin').value = ''; $('s2M').textContent = ''; $('shade2').classList.remove('hide'); 
-};
+  if (guest) return toast('ঘুরে দেখার মোডে সেটিং বদলানো যায় না'); $('nName').value = uName; $('oPin').value = $('nPin').value = ''; $('s2M').textContent = ''; $('shade2').classList.remove('hide'); };
 $('s2X').onclick = close2; $('shade2').onclick = e => { if (e.target === $('shade2')) close2(); };
-
 $('s2Go').onclick = async () => {
   const m = $('s2M'), name = $('nName').value.trim(), o = $('oPin').value.trim(), n = $('nPin').value.trim(), upd = {};
   m.className = 'msg';
