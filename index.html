@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AURA – মোবাইল ওয়ালেট </title>
+<title>AURA – মোবাইল ওয়ালেট (ডেমো)</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;--brand:#14b88f;--brand2:#0e9272;--bg:#0c1822;--card:#142431;--ink:#e6f0f4;--mute:#8ba3b0;--ok:#3ddc9a;--err:#ff6b6b;--line:#243a49;--tint:#173a3a}
@@ -59,25 +59,131 @@ select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius
 .sheet h3{font-size:18px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
 .sheet h3 button{border:0;background:var(--bg);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer}
 @media (prefers-reduced-motion:no-preference){.sheet{animation:up .22s ease-out}@keyframes up{from{transform:translateY(40px);opacity:0}}}
+
+/* Responsive desktop/tablet layout */
+@media (min-width: 760px) {
+  body { justify-content: center; padding: 28px; background: #071119; }
+  #app {
+    max-width: 1240px;
+    min-height: calc(100vh - 56px);
+    border: 1px solid rgba(120,170,180,.12);
+    border-radius: 26px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,.35);
+  }
+  .auth {
+    min-height: calc(100vh - 56px);
+    padding: 76px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(20,184,143,.2), transparent 48%),
+      var(--bg);
+  }
+  .auth .top { width: min(100%, 520px); margin-bottom: 28px; }
+  .auth .top .logo { width: 76px; height: 76px; border-radius: 22px 22px 22px 7px; }
+  .auth h1 { font-size: 30px; margin-bottom: 4px; }
+  .auth p { font-size: 15px; }
+  .auth .box { width: min(100%, 520px); padding: 30px; border: 1px solid var(--line); border-radius: 22px; }
+  label { font-size: 14px; margin-top: 16px; }
+  input, select { padding: 14px 16px; }
+  .btn { padding: 14px 16px; }
+  #home:not(.hide) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, .82fr);
+    grid-template-areas:
+      "gbar gbar"
+      "header header"
+      "bal title"
+      "big txs"
+      "grid txs";
+    align-items: start;
+    column-gap: 30px;
+    padding-bottom: 28px;
+  }
+  #gbar { grid-area: gbar; }
+  #home > header { grid-area: header; padding: 26px 34px 82px; gap: 16px; }
+  header .logo { width: 52px; height: 52px; font-size: 25px; }
+  header b { font-size: 19px; }
+  header small { font-size: 13px; }
+  header button { padding: 9px 15px; font-size: 14px; }
+  #home > .bal {
+    grid-area: bal;
+    margin: -52px 0 0 30px;
+    padding: 24px 26px;
+    min-height: 118px;
+    border: 1px solid rgba(120,170,180,.12);
+  }
+  .bal small { font-size: 14px; }
+  .bal strong { font-size: 34px; }
+  .bal button { padding: 9px 16px; font-size: 14px; }
+  #home > .big {
+    grid-area: big;
+    width: auto;
+    margin: 24px 0 0 30px;
+    padding: 24px;
+    min-height: 118px;
+  }
+  .big span { flex: 0 0 68px; }
+  .big b { font-size: 23px; }
+  #home > .grid {
+    grid-area: grid;
+    margin: 18px 0 0 30px;
+    padding: 16px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    background: rgba(20,36,49,.52);
+    border: 1px solid rgba(120,170,180,.1);
+    border-radius: 20px;
+  }
+  .grid button { min-height: 92px; padding: 12px 4px; font-size: 13px; }
+  .grid button span { width: 52px; height: 52px; font-size: 23px; }
+  #lt { grid-area: title; margin: 24px 30px 10px 0; font-size: 19px; }
+  #txs { grid-area: txs; margin: 0 30px 0 0; min-height: 300px; border: 1px solid rgba(120,170,180,.1); }
+  .tx { padding: 15px 17px; gap: 14px; }
+  .tx i { width: 42px; height: 42px; flex: 0 0 42px; }
+  .tx b { font-size: 15px; }
+  .tx small { font-size: 13px; }
+  .empty { padding: 32px 20px; }
+  .sheet { max-width: 520px; border-radius: 22px; margin: auto; padding: 28px; border: 1px solid var(--line); }
+  .shade { align-items: center; padding: 24px; }
+  .toast { max-width: 520px; }
+}
+@media (min-width: 1100px) {
+  #home:not(.hide) { grid-template-columns: minmax(0, 1.08fr) minmax(390px, .92fr); column-gap: 38px; }
+  #home > header { padding-left: 42px; padding-right: 42px; }
+  #home > .bal, #home > .big { margin-left: 42px; }
+  #home > .grid { margin-left: 42px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  #lt { margin-right: 42px; }
+  #txs { margin-right: 42px; }
+}
+@media (max-width: 380px) {
+  .grid { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 0; }
+  .grid button { font-size: 11px; padding-left: 0; padding-right: 0; }
+  .grid button span { width: 42px; height: 42px; font-size: 20px; }
+  .bal strong { font-size: 25px; }
+}
 </style>
 </head>
 <body>
 <div id="app">
 
 <section id="auth" class="auth">
-  <div class="top"><div class="logo">A</div><h1>AURA-তে স্বাগতম</p></div>
+  <div class="top"><div class="logo">A</div><h1>AURA-তে স্বাগতম</h1><p>সহজ, দ্রুত ডিজিটাল লেনদেন (ডেমো)</p></div>
   <div class="box">
     <label for="aPhone">১৫ সংখ্যার অ্যাকাউন্ট কোড</label><input id="aPhone" inputmode="numeric" maxlength="15" placeholder="১৫ সংখ্যার কোড">
     <label for="aPin">৫ সংখ্যার পিন</label><input id="aPin" type="password" inputmode="numeric" maxlength="5" placeholder="•••••">
     <button id="aGo" class="btn">লগইন করুন</button>
     <button id="aGuest" class="btn" style="background:none;border:1.5px solid var(--brand);color:var(--brand);margin-top:10px">অ্যাকাউন্ট ছাড়া অ্যাপ ঘুরে দেখুন</button>
     <div id="aMsg" class="msg"></div>
-    <p class="note"> একাউন্ট আছে? লগইন করুন <br>-- লেনদেন সহজ হোক AURA তে -- <br>এটা ডেমো কিন্তু রিয়েল এর মতোই কাজ করে।</p>
+    <p class="note">অ্যাকাউন্ট ও কোড শুধু অ্যাডমিন দিতে পারেন।<br>এটি শুধু ডেমো — আসল টাকা নেই।</p>
   </div>
 </section>
 
 <section id="home" class="hide">
-  <div id="gbar" class="gbar hide">👀 আপনি ঘুরে দেখছেন — অ্যাকাউন্ট খুলতে সাগরের সাথে যোগাযোগ করুন</div>
+  <div id="gbar" class="gbar hide">আপনি ঘুরে দেখছেন — অ্যাকাউন্ট খুলতে সাগরের সাথে যোগাযোগ করুন</div>
   <header><div class="logo">A</div><div class="who"><small>স্বাগতম</small><br><b id="hName">—</b></div><button id="gear" aria-label="সেটিং">⚙️</button><button id="out">লগআউট</button></header>
   <div class="bal"><div><small>আপনার ব্যালেন্স</small><strong id="hBal">৳ ****</strong></div><button id="eye">দেখুন</button></div>
   <button data-a="send" class="big"><span>💸</span><div><b>সেন্ড মানি</b><small>অন্য AURA অ্যাকাউন্টে টাকা পাঠান</small></div></button>
@@ -123,7 +229,6 @@ select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius
 </div></div>
 
 </div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, get, set, push, runTransaction, update, onValue, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -202,12 +307,13 @@ function enterGuest() {
       <b class="${t.amount > 0 ? 'pos' : 'neg'}">${t.amount > 0 ? '+' : '−'}${money(Math.abs(t.amount))}</b></div>`).join('');
 }
 $('aGuest').onclick = enterGuest;
-// ঘুরে দেখার মোডে "বের হন" ছাড়া যেকোনো ক্লিকে বার্তা দেখায়, কোনো কাজ হয় না
+
 $('home').addEventListener('click', e => {
   if (!guest || e.target.closest('#out')) return;
   e.stopPropagation(); e.preventDefault();
   toast('অ্যাকাউন্ট খুলতে সাগরের সাথে যোগাযোগ করুন');
 }, true);
+
 function out() {
   guest = false; $('gbar').classList.add('hide'); $('out').textContent = 'লগআউট';
   offs.forEach(f => f()); offs = []; me = null; show = false;
@@ -222,6 +328,7 @@ const A = {
   req:  { t: 'টাকার জন্য আবেদন করুন', num: null, fee: 0 }
 };
 const feeOf = () => Math.round((parseFloat($('sAmt').value) || 0) * A[act].fee * 100) / 100;
+
 document.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
   act = b.dataset.a; const a = A[act];
   $('sT').textContent = a.t; $('sNumW').classList.toggle('hide', !a.num);
@@ -230,8 +337,10 @@ document.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
   ['sNum', 'sAmt', 'sPin'].forEach(i => $(i).value = ''); $('sMsg').textContent = ''; $('sFee').textContent = a.fee ? 'চার্জ: ১.৮৫%' : '';
   $('shade').classList.remove('hide'); setTimeout(() => $(a.num ? 'sNum' : 'sAmt').focus(), 50);
 });
+
 $('sAmt').oninput = () => { if (A[act].fee) $('sFee').textContent = 'চার্জ: ' + money(feeOf()) + ' (১.৮৫%)'; };
 let rName = '';
+
 $('sNum').oninput = async () => {
   if (act !== 'send' || guest) return;
   const v = $('sNum').value.trim(); $('sFee').textContent = '';
@@ -241,6 +350,7 @@ $('sNum').oninput = async () => {
     $('sFee').textContent = v === me ? 'নিজের কোডে পাঠানো যাবে না' : r.exists() ? 'প্রাপক: ' + r.val().name : 'এই কোডে AURA অ্যাকাউন্ট নেই';
   } catch (e) {}
 };
+
 const close = () => $('shade').classList.add('hide');
 $('sX').onclick = close; $('shade').onclick = e => { if (e.target === $('shade')) close(); };
 
@@ -281,8 +391,10 @@ document.querySelectorAll('[data-na]').forEach(b => b.onclick = () => toast('ফ
 /* ---------- settings ---------- */
 const close2 = () => $('shade2').classList.add('hide');
 $('gear').onclick = () => {
-  if (guest) return toast('ঘুরে দেখার মোডে সেটিং বদলানো যায় না'); $('nName').value = uName; $('oPin').value = $('nPin').value = ''; $('s2M').textContent = ''; $('shade2').classList.remove('hide'); };
+  if (guest) return toast('ঘুরে দেখার মোডে সেটিং বদলানো যায় না'); $('nName').value = uName; $('oPin').value = $('nPin').value = ''; $('s2M').textContent = ''; $('shade2').classList.remove('hide'); 
+};
 $('s2X').onclick = close2; $('shade2').onclick = e => { if (e.target === $('shade2')) close2(); };
+
 $('s2Go').onclick = async () => {
   const m = $('s2M'), name = $('nName').value.trim(), o = $('oPin').value.trim(), n = $('nPin').value.trim(), upd = {};
   m.className = 'msg';
