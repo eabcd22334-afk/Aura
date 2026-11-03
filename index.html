@@ -172,6 +172,68 @@ select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius
   .bal { gap: 8px; padding-left: 14px; padding-right: 14px; }
   .bal strong { font-size: clamp(17px, 5vw, 25px); }
 }
+
+/* AURA Merchant Checkout — wallet gateway style */
+.merchant-wrap{position:fixed;inset:0;z-index:30;background:#07131b;display:flex;align-items:center;justify-content:center;padding:18px;overflow-y:auto}
+.merchant-card{width:100%;max-width:440px;background:#f7faf9;color:#15252b;border-radius:18px;overflow:hidden;box-shadow:0 24px 90px rgba(0,0,0,.55);font-family:'Hind Siliguri',sans-serif}
+.merchant-top{background:#0f5e4d;color:#fff;padding:19px 22px;display:flex;align-items:center;gap:12px}
+.merchant-top .logo{width:43px;height:43px;flex:0 0 43px;border-radius:12px 12px 12px 4px;color:#0f5e4d;font-size:23px}
+.merchant-top h2{font-size:19px;line-height:1.2;margin:0;color:#fff}
+.merchant-top p{font-size:12px;opacity:.82;margin-top:3px}
+.merchant-body{padding:22px}
+.merchant-caption{font-size:12px;color:#64767b;text-align:center;margin-bottom:5px}
+.merchant-service{background:#edf5f2;border:1px solid #d8e9e3;padding:13px 15px;border-radius:12px;margin:0 0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.merchant-service small{display:block;color:#64767b;font-size:12px}
+.merchant-service b{font-size:15px;color:#193b32;overflow-wrap:anywhere}
+.merchant-amount{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 2px 17px;margin:0 0 12px;border-bottom:1px dashed #cbd8d4}
+.merchant-amount span{color:#53666b;font-size:14px}.merchant-amount strong{font-size:29px;color:#0f8c6c;white-space:nowrap}
+.merchant-method{display:flex;align-items:center;gap:11px;padding:12px;border:1px solid #dbe5e1;border-radius:12px;margin:14px 0 17px;background:#fff}
+.merchant-method .method-icon{width:37px;height:37px;border-radius:10px;background:#e4f5ef;color:#0d8b69;display:grid;place-items:center;font-weight:700;font-size:20px}
+.merchant-method b{display:block;font-size:14px;color:#203b35}.merchant-method small{font-size:11px;color:#71817d}
+.merchant-card label{color:#52656a;font-size:13px;margin:13px 0 5px}
+.merchant-card input{background:#fff;color:#15252b;border:1.5px solid #d2dfda;border-radius:10px;padding:12px 13px}
+.merchant-card input:focus{outline:2px solid #14b88f;border-color:#14b88f}
+.merchant-actions{display:flex;gap:10px;margin-top:18px}
+.merchant-actions .btn{margin:0;background:#0f9d78;color:#fff;border-radius:10px;padding:13px}
+.merchant-actions .btn:disabled{opacity:.6}
+.merchant-secure{font-size:11px;color:#758680;text-align:center;margin-top:13px}
+.merchant-cancel{margin-top:10px;padding:11px;border:0;background:transparent;color:#60736e;font:inherit;cursor:pointer;width:100%}
+#merchantMsg{color:#c33;margin-top:9px}#merchantMsg.ok{color:#087c5b}
+@media(min-width:760px){.merchant-card{max-width:460px}.merchant-body{padding:26px 30px}.merchant-top{padding:21px 30px}}
+
+/* Merchant success page */
+.ms-wrap{position:fixed;inset:0;z-index:40;background:#07131b;display:flex;align-items:center;justify-content:center;padding:18px;overflow-y:auto}
+.ms-card{position:relative;overflow:hidden;width:100%;max-width:440px;background:linear-gradient(160deg,#172b38,#12222e);border:1px solid #2b4653;border-radius:24px;padding:30px 24px 24px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.5);animation:msRise .5s cubic-bezier(.2,.8,.2,1)}
+.ms-card::before{content:"";position:absolute;inset:-60px -40px auto;height:220px;background:radial-gradient(ellipse at 50% 0,rgba(20,184,143,.27),transparent 70%);pointer-events:none}
+.ms-ring{position:relative;width:84px;height:84px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,#3ddc9a,#14b88f);display:grid;place-items:center;box-shadow:0 0 0 8px rgba(20,184,143,.13),0 0 0 18px rgba(20,184,143,.07),0 10px 30px rgba(20,184,143,.33);animation:msPop .6s cubic-bezier(.2,1.4,.4,1)}
+.ms-tick{stroke-dasharray:50;stroke-dashoffset:50;animation:msDraw .5s .35s ease forwards}
+.ms-card h2{position:relative;font-size:23px;margin:0}
+.ms-lead{position:relative;margin:4px 0 0;color:var(--mute);font-size:13px}
+.ms-amt{position:relative;font-size:40px;font-weight:700;color:var(--ok);margin:14px 0 4px}
+.ms-rec{position:relative;margin:16px 0 14px;padding:6px 16px;border-radius:16px;background:#0d1b25;border:1px dashed #36505f;text-align:left}
+.ms-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #20343f;font-size:13px}
+.ms-row:last-child{border-bottom:0}.ms-row span{color:var(--mute)}
+.ms-row b{font-weight:600;text-align:right;overflow-wrap:anywhere}.ms-row b.g{color:var(--brand)}
+.ms-pill{display:inline-block;margin-bottom:16px;padding:5px 14px;border-radius:99px;background:#123c32;color:var(--ok);font-size:12px;font-weight:600}
+.ms-card .btn{margin-top:0;box-shadow:0 8px 22px rgba(20,184,143,.27)}
+.ms-back{width:100%;margin-top:10px;padding:11px;border:1px solid var(--line);border-radius:13px;background:transparent;color:var(--mute);font:inherit;cursor:pointer}
+.ms-note{margin-top:11px;color:var(--mute);font-size:12px}
+.ms-burst{position:absolute;left:50%;top:72px;width:0;height:0}
+.ms-burst i{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--ok);opacity:0;animation:msSpark .9s .2s ease-out forwards}
+.ms-burst i:nth-child(odd){background:#fff;width:5px;height:5px}
+.ms-burst i:nth-child(1){--x:-90px;--y:-30px}.ms-burst i:nth-child(2){--x:90px;--y:-34px}
+.ms-burst i:nth-child(3){--x:-62px;--y:36px}.ms-burst i:nth-child(4){--x:66px;--y:40px}
+.ms-burst i:nth-child(5){--x:-20px;--y:-62px}.ms-burst i:nth-child(6){--x:24px;--y:-60px}
+.ms-burst i:nth-child(7){--x:-110px;--y:8px}.ms-burst i:nth-child(8){--x:112px;--y:6px}
+@keyframes msRise{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes msPop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes msDraw{to{stroke-dashoffset:0}}
+@keyframes msSpark{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--x),var(--y)) scale(.3)}}
+@media(prefers-reduced-motion:reduce){.ms-card,.ms-ring,.ms-tick,.ms-burst i{animation:none}.ms-tick{stroke-dashoffset:0}}
+
+/* logo image (imaze.jpg) */
+.logo{position:relative;overflow:hidden}
+.logo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 </style>
 </head>
 <body>
@@ -213,7 +275,6 @@ select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius
   <h2 id="lt">সাম্প্রতিক লেনদেন</h2>
   <div id="txs" class="list"></div>
 </section>
-
 <div id="shade" class="shade hide"><div class="sheet" role="dialog" aria-modal="true">
   <h3><span id="sT"></span><button id="sX" aria-label="বন্ধ করুন">✕</button></h3>
   <div id="sNumW"><label id="sNumL" for="sNum"></label><input id="sNum" inputmode="numeric" maxlength="15"></div>
@@ -225,6 +286,70 @@ select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius
 </div></div>
 
 <div id="toast" class="toast hide">ফিচারটি কার্যকর নয়</div>
+
+<div id="merchantPage" class="merchant-wrap hide">
+  <div class="merchant-card" role="dialog" aria-modal="true" aria-labelledby="merchantTitle">
+    <div class="merchant-top"><div class="logo">A</div><div><h2 id="merchantTitle">AURA Payment</h2><p>Secure Merchant Checkout</p></div></div>
+    <div class="merchant-body">
+      <p class="merchant-caption">আপনি একটি পেমেন্ট সম্পন্ন করতে যাচ্ছেন</p>
+      <div class="merchant-service"><div><small>MERCHANT / SERVICE</small><b id="merchantService">Paid Service</b></div><span>🛍️</span></div>
+      <div class="merchant-amount"><span>সর্বমোট পেমেন্ট</span><strong>৳১০০.০০</strong></div>
+      <div class="merchant-method"><div class="method-icon">A</div><div><b>AURA Wallet</b><small>আপনার AURA ব্যালেন্স থেকে পেমেন্ট হবে</small></div></div>
+      <label for="merchantCode">AURA Account Code</label>
+      <input id="merchantCode" inputmode="numeric" maxlength="15" placeholder="১৫ সংখ্যার AURA কোড">
+      <label for="merchantPin">AURA PIN</label>
+      <input id="merchantPin" type="password" inputmode="numeric" maxlength="5" placeholder="৫ সংখ্যার PIN">
+      <div class="merchant-actions"><button id="merchantContinue" class="btn">এগিয়ে যান →</button></div>
+      <div id="merchantMsg" class="msg"></div>
+      <p class="merchant-secure">🔒 নিরাপদ AURA Wallet পেমেন্ট</p>
+      <button id="merchantCancel" class="merchant-cancel">পেমেন্ট বাতিল করুন</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="merchantSuccess" class="ms-wrap hide">
+  <div class="ms-card" role="dialog" aria-modal="true" aria-labelledby="msTitle">
+    <div class="ms-burst"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="ms-ring"><svg viewBox="0 0 52 52" width="44" height="44"><path class="ms-tick" d="M14 27l8 8 16-17" fill="none" stroke="#06231c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2 id="msTitle">পেমেন্ট সফল হয়েছে</h2>
+    <p class="ms-lead">আপনার AURA Wallet থেকে পেমেন্ট সম্পন্ন হয়েছে</p>
+    <div class="ms-amt">৳১০০.০০</div>
+    <div class="ms-rec">
+      <div class="ms-row"><span>মার্চেন্ট / সার্ভিস</span><b id="msSvc">—</b></div>
+      <div class="ms-row"><span>পেমেন্ট পদ্ধতি</span><b>AURA Wallet</b></div>
+      <div class="ms-row"><span>অ্যাকাউন্ট</span><b id="msAcc">—</b></div>
+      <div class="ms-row"><span>লেনদেন আইডি</span><b id="msId">—</b></div>
+      <div class="ms-row"><span>তারিখ ও সময়</span><b id="msTime">—</b></div>
+      <div class="ms-row"><span>অবশিষ্ট ব্যালেন্স</span><b id="msBal" class="g">—</b></div>
+    </div>
+    <div class="ms-pill">● সম্পন্ন</div>
+    <button id="msGo" class="btn">এগিয়ে যান</button>
+    <button id="msBack" class="ms-back">হোমে ফিরুন</button>
+    <div class="ms-note">রিসিট সংরক্ষণ করতে স্ক্রিনশট নিয়ে রাখুন</div>
+  </div>
+</div>
+
+<div id="sendSuccess" class="ms-wrap hide">
+  <div class="ms-card" role="dialog" aria-modal="true" aria-labelledby="ssTitle">
+    <div class="ms-burst"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="ms-ring"><svg viewBox="0 0 52 52" width="44" height="44"><path class="ms-tick" d="M14 27l8 8 16-17" fill="none" stroke="#06231c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2 id="ssTitle">টাকা পাঠানো সফল হয়েছে</h2>
+    <p class="ms-lead">আপনার টাকা সফলভাবে পৌঁছে গেছে</p>
+    <div class="ms-amt" id="ssAmt">৳ ০</div>
+    <div class="ms-rec">
+      <div class="ms-row"><span>প্রাপক</span><b id="ssName">—</b></div>
+      <div class="ms-row"><span>প্রাপকের কোড</span><b id="ssCode">—</b></div>
+      <div class="ms-row"><span>চার্জ</span><b id="ssFee">—</b></div>
+      <div class="ms-row"><span>লেনদেন আইডি</span><b id="ssId">—</b></div>
+      <div class="ms-row"><span>তারিখ ও সময়</span><b id="ssTime">—</b></div>
+      <div class="ms-row"><span>অবশিষ্ট ব্যালেন্স</span><b id="ssBal" class="g">—</b></div>
+    </div>
+    <div class="ms-pill">● সম্পন্ন</div>
+    <button id="ssDone" class="btn">সম্পন্ন করুন</button>
+    <div class="ms-note">রিসিট সংরক্ষণ করতে স্ক্রিনশট নিয়ে রাখুন</div>
+  </div>
+</div>
 
 <div id="shade2" class="shade hide"><div class="sheet" role="dialog" aria-modal="true">
   <h3><span>সেটিং</span><button id="s2X" aria-label="বন্ধ করুন">✕</button></h3>
@@ -255,6 +380,7 @@ const $ = id => document.getElementById(id);
 const bn = n => Number(n).toLocaleString('bn-BD', { maximumFractionDigits: 2 });
 const money = n => '৳ ' + bn(n);
 const CODE = /^\d{15}$/;
+const KEEP_TX = 5;
 const OK = { send: CODE, rech: /^01[3-9]\d{8}$/, pay: /^\d{5,15}$/ };
 let me = null, bal = 0, uName = '', show = false, offs = [], act = null, guest = false;
 
@@ -290,9 +416,14 @@ function enter(phone) {
     if (u.status === 'disabled') { alert('আপনার অ্যাকাউন্ট বন্ধ করা হয়েছে'); return out(); }
     bal = u.balance || 0; uName = u.name; $('hName').textContent = u.name; paintBal();
   }));
-  offs.push(onValue(query(ref(db, 'txs/' + me), limitToLast(25)), s => {
-    const rows = []; s.forEach(c => { rows.push(c.val()); });
-    rows.reverse();
+  offs.push(onValue(ref(db, 'txs/' + phone), s => {
+    const keys = [], all = []; s.forEach(c => { keys.push(c.key); all.push(c.val()); });
+    // শুধু শেষ KEEP_TX টি লেনদেন রাখা হয়; পুরোনোগুলো অটো ডিলিট
+    if (keys.length > KEEP_TX) {
+      const del = {}; keys.slice(0, keys.length - KEEP_TX).forEach(k => { del[k] = null; });
+      update(ref(db, 'txs/' + phone), del).catch(err => console.error('Auto-delete failed:', err));
+    }
+    const rows = all.slice(-KEEP_TX).reverse();
     $('txs').innerHTML = rows.length ? rows.map(t => `
       <div class="tx"><i>${ICON[t.type] || '💳'}</i>
       <div><b>${TITLE[t.type] || t.type}</b><br><small>${t.label || ''} • ${new Date(t.ts).toLocaleString('bn-BD', { dateStyle: 'medium', timeStyle: 'short' })}</small></div>
@@ -327,6 +458,7 @@ function out() {
   $('home').classList.add('hide'); $('auth').classList.remove('hide'); $('aPin').value = '';
 }
 $('out').onclick = out;
+
 /* ---------- actions ---------- */
 const A = {
   send: { t: 'সেন্ড মানি', num: 'প্রাপকের ১৫ সংখ্যার অ্যাকাউন্ট কোড', fee: 0 },
@@ -364,7 +496,7 @@ $('sGo').onclick = async () => {
   if (!(amt >= 1) || amt > 100000) return m.textContent = 'পরিমাণ ১ থেকে ১,০০,০০০ টাকার মধ্যে দিন';
   $('sGo').disabled = true;
   try {
-    const ts = Date.now(); rName = '';
+    const ts = Date.now(); rName = ''; let sendInfo = null;
     if (act === 'req') {
       await push(ref(db, 'requests'), { code: me, name: uName, amount: amt, status: 'pending', ts });
     } else {
@@ -378,16 +510,104 @@ $('sGo').onclick = async () => {
         await runTransaction(ref(db, `users/${num}/balance`), b => (b || 0) + amt);
         await push(ref(db, 'txs/' + num), { type: 'received', label: 'প্রেরক: ' + uName + ' (' + me + ')', amount: amt, ts });
       }
-      await push(ref(db, 'txs/' + me), { type: act, label: rName ? rName + ' (' + num + ')' : num, amount: -(amt + fee), ts });
+      const sRef = await push(ref(db, 'txs/' + me), { type: act, label: rName ? rName + ' (' + num + ')' : num, amount: -(amt + fee), ts });
+      if (act === 'send') sendInfo = { name: rName, num, amt, fee, ts, left: r.snapshot.val(), id: 'AS' + String((sRef && sRef.key) || ts.toString(36)).slice(-8).toUpperCase() };
     }
-    m.className = 'msg ok'; m.textContent = act === 'req' ? 'আবেদন জমা হয়েছে ✓ অ্যাডমিন অনুমোদন করলে ব্যালেন্সে যোগ হবে' : 'সফল হয়েছে ✓'; setTimeout(close, act === 'req' ? 1800 : 900);
+    if (sendInfo) { close(); showSendSuccess(sendInfo); }
+    else { m.className = 'msg ok'; m.textContent = act === 'req' ? 'আবেদন জমা হয়েছে ✓ অ্যাডমিন অনুমোদন করলে ব্যালেন্সে যোগ হবে' : 'সফল হয়েছে ✓'; setTimeout(close, act === 'req' ? 1800 : 900); }
   } catch (e) { m.textContent = e.message || 'সংযোগ সমস্যা'; }
   $('sGo').disabled = false;
 };
 
+ /* ---------- সফল পেজ লক ---------- */
+const LOCKS = ['merchantSuccess', 'sendSuccess'];
+const isLocked = () => LOCKS.some(id => !$(id).classList.contains('hide'));
+function lockOn() { try { history.pushState({ lock: 1 }, '', location.href); } catch (e) {} }
+window.addEventListener('popstate', () => { if (isLocked()) lockOn(); }); // ব্যাক চাপলেও সফল পেজেই থাকবে
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && isLocked()) e.preventDefault(); });
+const fmt2 = n => Number.isFinite(Number(n)) ? '৳ ' + Number(n).toLocaleString('bn-BD', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—';
+function showSendSuccess(i) {
+  $('ssAmt').textContent = fmt2(i.amt);
+  $('ssName').textContent = i.name || '—';
+  $('ssCode').textContent = i.num;
+  $('ssFee').textContent = i.fee ? fmt2(i.fee) : 'কোনো চার্জ নেই';
+  $('ssId').textContent = i.id;
+  $('ssTime').textContent = new Date(i.ts).toLocaleString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+  $('ssBal').textContent = fmt2(i.left);
+  $('sendSuccess').classList.remove('hide'); lockOn();
+}
+$('ssDone').onclick = () => $('sendSuccess').classList.add('hide');
+
+/* AURA লোগোতে imaze.jpg; ছবি না থাকলে ডিফল্ট "A" থাকবে */
+document.querySelectorAll('.logo').forEach(l => { const im = new Image(); im.alt = 'AURA'; im.onload = () => l.appendChild(im); im.src = 'imaze.jpg'; });
+
 let tt;
 const toast = t => { $('toast').textContent = t; $('toast').classList.remove('hide'); clearTimeout(tt); tt = setTimeout(() => $('toast').classList.add('hide'), 2200); };
+let merchantService = '';
+const MERCHANT_FEE = 100;
+const MERCHANT_URL = 'https://1122.com';
+function openMerchant(service) {
+  if (guest || !me) return toast('পেমেন্ট করতে AURA অ্যাকাউন্টে লগইন করুন');
+  merchantService = service || 'Paid Service';
+  $('merchantService').textContent = merchantService;
+  $('merchantCode').value = me;
+  $('merchantPin').value = '';
+  $('merchantMsg').className = 'msg'; $('merchantMsg').textContent = '';
+  $('merchantContinue').disabled = false;
+  $('merchantPage').classList.remove('hide');
+  setTimeout(() => $('merchantPin').focus(), 80);
+}
+function closeMerchant(){ $('merchantPage').classList.add('hide'); $('merchantPin').value=''; }
+function showMerchantSuccess(ts, txKey, left) {
+  $('msSvc').textContent = merchantService;
+  $('msAcc').textContent = '••••••••••' + String(me).slice(-5);
+  $('msId').textContent = txKey;
+  $('msTime').textContent = new Date(ts).toLocaleString('bn-BD', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+  $('msBal').textContent = Number.isFinite(Number(left)) ? '৳ ' + Number(left).toLocaleString('bn-BD', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—';
+  $('merchantSuccess').classList.remove('hide');
+}
+$('msGo').onclick = () => { window.location.href = MERCHANT_URL; };
+$('msBack').onclick = () => $('merchantSuccess').classList.add('hide');
+$('merchantCancel').onclick = closeMerchant;
+$('merchantPage').onclick = e => { if(e.target === $('merchantPage')) closeMerchant(); };
 document.querySelectorAll('[data-na]').forEach(b => b.onclick = () => toast('ফিচারটি কার্যকর নয়'));
+$('merchantContinue').onclick = async () => {
+  const code = $('merchantCode').value.trim(), pin = $('merchantPin').value.trim(), m = $('merchantMsg'), btn = $('merchantContinue');
+  m.className = 'msg'; m.textContent = '';
+  if (!/^\d{15}$/.test(code)) { m.textContent = 'সঠিক ১৫ সংখ্যার AURA কোড দিন'; return; }
+  if (!/^\d{5}$/.test(pin)) { m.textContent = '৫ সংখ্যার সঠিক PIN দিন'; return; }
+  if (code !== me) { m.textContent = 'আপনার লগইন করা AURA অ্যাকাউন্টের কোড দিন'; return; }
+  if (isLocked() || btn.disabled) return;
+  btn.disabled = true; btn.textContent = 'পেমেন্ট যাচাই হচ্ছে...';
+  let debited = false;
+  try {
+    const userSnap = await get(ref(db, 'users/' + me));
+    if (!userSnap.exists()) throw new Error('AURA অ্যাকাউন্ট পাওয়া যায়নি');
+    const user = userSnap.val();
+    if (user.status === 'disabled') throw new Error('আপনার অ্যাকাউন্ট বন্ধ আছে');
+    if (String(user.pin) !== pin) throw new Error('AURA PIN ভুল হয়েছে');
+    const ts = Date.now();
+    const debit = await runTransaction(ref(db, 'users/' + me + '/balance'), current => {
+      const currentBalance = Number(current || 0);
+      return currentBalance >= MERCHANT_FEE ? currentBalance - MERCHANT_FEE : undefined;
+    });
+    if (!debit.committed) throw new Error('পর্যাপ্ত ব্যালেন্স নেই। কমপক্ষে ৳১০০ থাকতে হবে।');
+    debited = true;
+    const payment = { code: me, name: uName, service: merchantService, amount: MERCHANT_FEE, status: 'paid', ts };
+    await push(ref(db, 'merchantPayments'), payment);
+    const txRef = await push(ref(db, 'txs/' + me), { type: 'pay', label: 'Merchant: ' + merchantService, amount: -MERCHANT_FEE, ts });
+    const txKey = 'AP' + String((txRef && txRef.key) || ts.toString(36)).slice(-8).toUpperCase();
+    btn.disabled = false; btn.textContent = 'এগিয়ে যান →';
+    closeMerchant();
+    showMerchantSuccess(ts, txKey, debit.snapshot.val()); lockOn();
+  } catch (e) {
+    if (debited) {
+      try { await runTransaction(ref(db, 'users/' + me + '/balance'), current => (Number(current || 0) + MERCHANT_FEE)); } catch (refundError) {}
+    }
+    m.textContent = e.message || 'পেমেন্ট সম্পন্ন হয়নি। আবার চেষ্টা করুন।';
+    btn.disabled = false; btn.textContent = 'এগিয়ে যান →';
+  }
+};
 
 /* ---------- settings ---------- */
 const close2 = () => $('shade2').classList.add('hide');
